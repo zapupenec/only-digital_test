@@ -2,6 +2,7 @@ import { FC, useEffect, useRef, useState } from 'react';
 import { Swiper, SwiperProps, SwiperSlide } from 'swiper/react';
 import { Swiper as SwiperType } from 'swiper/types';
 import { FreeMode, Mousewheel } from 'swiper/modules';
+import { gsap } from 'gsap';
 import cn from 'classnames';
 import 'swiper/scss';
 
@@ -15,7 +16,10 @@ interface ISliderProps extends SwiperProps {
 }
 
 export const Slider: FC<ISliderProps> = ({ list, className }) => {
-  const swiperRef = useRef<SwiperType>();
+  const [currentList, setCurrentList] = useState(list);
+
+  const sliderRef = useRef<HTMLDivElement>(null);
+  const swiperRef = useRef<SwiperType>(null);
 
   const [canSlidePrev, setCanSlidePrev] = useState(false);
   const [canSlideNext, setCanSlideNext] = useState(false);
@@ -50,12 +54,7 @@ export const Slider: FC<ISliderProps> = ({ list, className }) => {
       swiper.on('reachEnd', () => {
         setCanSlideNext(false);
       });
-    }
-  }, []);
 
-  useEffect(() => {
-    const swiper = swiperRef.current;
-    if (swiper) {
       swiper.slideTo(0);
       setCanSlidePrev(false);
       if (list.length > Number(swiper.params.slidesPerView)) {
@@ -64,10 +63,30 @@ export const Slider: FC<ISliderProps> = ({ list, className }) => {
         setCanSlideNext(false);
       }
     }
+  }, [currentList]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setCurrentList(list);
+    }, 600);
+
+    return () => {
+      gsap.to(sliderRef.current, {
+        opacity: 0,
+        duration: 0.5,
+        onComplete: () => {
+          gsap.to(sliderRef.current, {
+            opacity: 1,
+            duration: 0.5,
+            delay: 0.5,
+          });
+        },
+      });
+    };
   }, [list]);
 
   return (
-    <div className={cn(className, styles.slider)}>
+    <div ref={sliderRef} className={cn(className, styles.slider)}>
       <Swiper
         modules={[Mousewheel, FreeMode]}
         spaceBetween={80}
@@ -79,7 +98,7 @@ export const Slider: FC<ISliderProps> = ({ list, className }) => {
           swiperRef.current = swiper;
         }}
       >
-        {list.map((item) => (
+        {currentList.map((item) => (
           <SwiperSlide key={item.year}>
             <Slide slideTitle={item.year} text={item.text} />
           </SwiperSlide>

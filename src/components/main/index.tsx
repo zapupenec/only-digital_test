@@ -1,5 +1,6 @@
-import { DetailedHTMLProps, Dispatch, FC } from 'react';
+import { DetailedHTMLProps, Dispatch, FC, useLayoutEffect, useRef } from 'react';
 import cn from 'classnames';
+import { gsap } from 'gsap';
 
 import styles from './styles.module.scss';
 import { Pagination } from '../pagination';
@@ -32,13 +33,42 @@ export const Main: FC<IMainProps> = ({ categories, activeId, setActiveId }) => {
     setActiveId(id);
   };
 
+  const intervalRef = useRef({
+    from: 0,
+    to: 0,
+  });
+  const elFromRef = useRef<HTMLSpanElement>(null);
+  const elToRef = useRef<HTMLSpanElement>(null);
+
+  useLayoutEffect(() => {
+    const interval = intervalRef.current;
+    const elFrom = elFromRef.current;
+    const elTo = elToRef.current;
+
+    if (interval && elFrom && elTo) {
+      gsap.to(interval, {
+        from: activeCategory?.events[0]?.year,
+        to: activeCategory?.events.at(-1)?.year,
+        duration: 0.5,
+        onUpdate: () => {
+          elFrom.innerHTML = `${Math.floor(interval.from)}`;
+          elTo.innerHTML = `${Math.floor(interval.to)}`;
+        },
+      });
+    }
+  }, [activeId]);
+
   return (
     <div className={styles.Main}>
       <h2 className={styles.Main__title}>Исторические даты</h2>
       <div className={styles.circle}>
         <div className={styles.interval}>
-          <span className={styles.from}>{activeCategory?.events[0]?.year}</span>
-          <span className={styles.to}>{activeCategory?.events.at(-1)?.year}</span>
+          <span ref={elFromRef} className={styles.from}>
+            {activeCategory?.events[0]?.year}
+          </span>
+          <span ref={elToRef} className={styles.to}>
+            {activeCategory?.events.at(-1)?.year}
+          </span>
         </div>
         {categories.map(({ id, title }) => (
           <div
