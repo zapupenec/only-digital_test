@@ -1,0 +1,16 @@
+@import '../node_modules/normalize.css/normalize.css';
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+body {
+  background: #f4f5f9;
+  font-family:
+    PT Sans,
+    sans-serif;
+}
+
+#root {
+  width: 100vw;
+  height: 1px;
+  min-height: 100vh;
+}

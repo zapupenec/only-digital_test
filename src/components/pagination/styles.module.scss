@@ -1,0 +1,34 @@
+.Pagination {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: fit-content;
+
+  & .title {
+    color: #42567a;
+    font-size: 14px;
+    font-weight: 400;
+    height: 18px;
+  }
+
+  & .controls {
+    display: flex;
+    gap: 20px;
+
+    .prev {
+      transform: rotate(180deg);
+
+      &.inactive {
+        opacity: 0.5;
+        pointer-events: none;
+      }
+    }
+
+    .next {
+      &.inactive {
+        opacity: 0.5;
+        pointer-events: none;
+      }
+    }
+  }
+}

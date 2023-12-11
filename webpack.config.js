@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const config = {
-  mode: process.env.NODE_ENV || 'development',
+  mode: process.env.NODE_ENV,
   context: path.resolve(__dirname, 'src'),
   entry: './index.tsx',
   output: {
@@ -16,6 +16,7 @@ const config = {
     modules: ['node_modules'],
   },
   module: {
+    strictExportPresence: true,
     rules: [
       {
         test: /\.(js|ts)x?$/,
@@ -24,7 +25,23 @@ const config = {
       },
       {
         test: /\.(c|sa|sc)ss$/,
+        exclude: /\.module\.(c|sa|sc)ss$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+      },
+      {
+        test: /\.module\.(c|sa|sc)ss$/,
+        // exclude: /\.(c|sa|sc)ss$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              importLoaders: 1,
+            },
+          },
+          'sass-loader',
+        ],
       },
     ],
   },

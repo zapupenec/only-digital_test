@@ -1,0 +1,25 @@
+.slider {
+  position: relative;
+
+  & .prev {
+    position: absolute;
+    top: 50px;
+    left: -40px;
+    transform: rotate(180deg) translateX(50%);
+
+    &.inactive {
+      display: none;
+    }
+  }
+
+  & .next {
+    position: absolute;
+    top: 50px;
+    right: -40px;
+    transform: translateX(50%);
+
+    &.inactive {
+      display: none;
+    }
+  }
+}
