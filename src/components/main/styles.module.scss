@@ -28,16 +28,80 @@
       width: 5px;
       background-image: linear-gradient(0deg, #ef5da8 0%, #3877ee 100%);
     }
+
+    @media (max-width: 1439px) {
+      width: calc(120px + (350 - 120) * ((100vw - 320px) / (1439 - 320)));
+      font-size: calc(20px + (56 - 20) * ((100vw - 320px) / (1439 - 320)));
+
+      &::before {
+        left: calc(-20px + (-80 + 20) * ((100vw - 320px) / (1439 - 320)));
+        width: calc(0px + (5 - 0) * ((100vw - 320px) / (1439 - 320)));
+      }
+    }
+
+    @media (max-width: 320px) {
+      width: 120px;
+      font-size: 20px;
+
+      &::before {
+        left: -20px;
+        width: 0px;
+      }
+    }
   }
 
   & .circle {
+    $circleMaxSize: 530;
+    $circleMinSize: 150;
+
     box-sizing: border-box;
     margin: 0 auto;
-    width: 530px;
-    height: 530px;
+    width: #{$circleMaxSize}px;
+    height: #{$circleMaxSize}px;
     border: 1px solid rgb(66, 86, 122, 0.2);
     border-radius: 50%;
     position: relative;
+
+    @media (max-width: 1439px) {
+      width: calc(
+        #{$circleMinSize}px + ($circleMaxSize - $circleMinSize) * ((100vw - 320px) / (1439 - 320))
+      );
+      height: calc(
+        #{$circleMinSize}px + ($circleMaxSize - $circleMinSize) * ((100vw - 320px) / (1439 - 320))
+      );
+    }
+
+    @media (max-width: 320px) {
+      width: #{$circleMinSize}px;
+      height: #{$circleMinSize}px;
+    }
+
+    &::before,
+    &::after {
+      box-sizing: border-box;
+      content: '';
+      display: block;
+      background: rgb(66, 86, 122, 0.1);
+      position: absolute;
+    }
+
+    &::before {
+      height: 1px;
+      width: 100vw;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    &::after {
+      height: 100vh;
+      width: 1px;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
 
     & .interval {
       display: flex;
@@ -61,9 +125,24 @@
       & .to {
         color: #ef5da8;
       }
+
+      @media (max-width: 1439px) {
+        gap: calc(30px + (100 - 30) * ((100vw - 320px) / (1439 - 320)));
+        font-size: calc(56px + (200 - 56) * ((100vw - 320px) / (1439 - 320)));
+        letter-spacing: calc(-1.12px + (-4 + 1.12) * ((100vw - 320px) / (1439 - 320)));
+      }
+
+      @media (max-width: 320px) {
+        gap: 30px;
+        font-size: 56px;
+        letter-spacing: -1.12px;
+      }
     }
 
     & .category {
+      $categoryMaxSize: 56;
+      $categoryMinSize: 28;
+
       box-sizing: border-box;
       width: 6px;
       height: 6px;
@@ -81,7 +160,7 @@
       position: absolute;
       top: calc(-6px / 2);
       left: calc(50% - 6px / 2);
-      transform-origin: 50% calc((530px + 6px) / 2) 0;
+      transform-origin: 50% calc((#{$circleMaxSize}px + 6px) / 2) 0;
       transition:
         transform 1s ease,
         transform-origin 1s ease,
@@ -90,6 +169,25 @@
         left 1s ease,
         width 1s ease,
         height 1s ease;
+
+      @media (max-width: 1439px) {
+        font-size: calc(14px + (20 - 14) * ((100vw - 320px) / (1439 - 320)));
+        transform-origin: 50%
+          calc(
+            (
+                calc(
+                    #{$circleMinSize}px + ($circleMaxSize - $circleMinSize) *
+                      ((100vw - 320px) / (1439 - 320))
+                  ) + 6px
+              ) / 2
+          )
+          0;
+      }
+
+      @media (max-width: 320px) {
+        font-size: 14px;
+        transform-origin: 50% calc((#{$circleMinSize}px + 6px) / 2) 0;
+      }
 
       & .category__content {
         height: 100%;
@@ -109,6 +207,14 @@
           transition:
             opacity 1s ease,
             visibility 1s ease;
+
+          @media (max-width: 1439px) {
+            left: calc(100% + calc(5px + (20 - 5) * ((100vw - 320px) / (1439 - 320))));
+          }
+
+          @media (max-width: 320px) {
+            left: calc(100% + 5px);
+          }
         }
 
         & .category__id {
@@ -118,34 +224,79 @@
       }
 
       &:hover {
-        width: 56px;
-        height: 56px;
+        width: #{$categoryMaxSize}px;
+        height: #{$categoryMaxSize}px;
 
         border-radius: 50%;
         border: 1px solid rgb(48, 62, 88, 0.5);
         background: #f4f5f9;
 
-        top: calc(-56px / 2);
-        left: calc(50% - 56px / 2);
-        transform-origin: 50% calc((530px + 56px) / 2) 0;
+        top: calc(-#{$categoryMaxSize}px / 2);
+        left: calc(50% - #{$categoryMaxSize}px / 2);
+        transform-origin: 50% calc((#{$circleMaxSize}px + #{$categoryMaxSize}px) / 2) 0;
 
         & .category__id {
           opacity: 1;
         }
+
+        @media (max-width: 1439px) {
+          width: calc(
+            #{$categoryMinSize}px + ($categoryMaxSize - $categoryMinSize) *
+              ((100vw - 320px) / (1439 - 320))
+          );
+          height: calc(
+            #{$categoryMinSize}px + ($categoryMaxSize - $categoryMinSize) *
+              ((100vw - 320px) / (1439 - 320))
+          );
+          top: calc(
+            -1 * calc(
+                #{$categoryMinSize}px + ($categoryMaxSize - $categoryMinSize) *
+                  ((100vw - 320px) / (1439 - 320))
+              ) / 2
+          );
+          left: calc(
+            50% - calc(
+                #{$categoryMinSize}px + ($categoryMaxSize - $categoryMinSize) *
+                  ((100vw - 320px) / (1439 - 320))
+              ) / 2
+          );
+          transform-origin: 50%
+            calc(
+              (
+                  calc(
+                      #{$circleMinSize}px + ($circleMaxSize - $circleMinSize) *
+                        ((100vw - 320px) / (1439 - 320))
+                    ) +
+                    calc(
+                      #{$categoryMinSize}px + ($categoryMaxSize - $categoryMinSize) *
+                        ((100vw - 320px) / (1439 - 320))
+                    )
+                ) / 2
+            )
+            0;
+        }
+
+        @media (max-width: 320px) {
+          width: #{$categoryMinSize}px;
+          height: #{$categoryMinSize}px;
+          top: calc(-#{$categoryMinSize}px / 2);
+          left: calc(50% - #{$categoryMinSize}px / 2);
+          transform-origin: 50% calc((#{$circleMinSize}px + #{$categoryMinSize}px) / 2) 0;
+        }
       }
 
       &.active {
-        width: 56px;
-        height: 56px;
+        width: #{$categoryMaxSize}px;
+        height: #{$categoryMaxSize}px;
 
         border-radius: 50%;
         border: 1px solid rgb(48, 62, 88, 0.5);
         background: #f4f5f9;
         pointer-events: none;
 
-        top: calc(-56px / 2);
-        left: calc(50% - 56px / 2);
-        transform-origin: 50% calc((530px + 56px) / 2) 0;
+        top: calc(-#{$categoryMaxSize}px / 2);
+        left: calc(50% - #{$categoryMaxSize}px / 2);
+        transform-origin: 50% calc((#{$circleMaxSize}px + #{$categoryMaxSize}px) / 2) 0;
 
         & .category__title {
           visibility: visible;
@@ -154,6 +305,51 @@
 
         & .category__id {
           opacity: 1;
+        }
+
+        @media (max-width: 1439px) {
+          width: calc(
+            #{$categoryMinSize}px + ($categoryMaxSize - $categoryMinSize) *
+              ((100vw - 320px) / (1439 - 320))
+          );
+          height: calc(
+            #{$categoryMinSize}px + ($categoryMaxSize - $categoryMinSize) *
+              ((100vw - 320px) / (1439 - 320))
+          );
+          top: calc(
+            -1 * calc(
+                #{$categoryMinSize}px + ($categoryMaxSize - $categoryMinSize) *
+                  ((100vw - 320px) / (1439 - 320))
+              ) / 2
+          );
+          left: calc(
+            50% - calc(
+                #{$categoryMinSize}px + ($categoryMaxSize - $categoryMinSize) *
+                  ((100vw - 320px) / (1439 - 320))
+              ) / 2
+          );
+          transform-origin: 50%
+            calc(
+              (
+                  calc(
+                      #{$circleMinSize}px + ($circleMaxSize - $circleMinSize) *
+                        ((100vw - 320px) / (1439 - 320))
+                    ) +
+                    calc(
+                      #{$categoryMinSize}px + ($categoryMaxSize - $categoryMinSize) *
+                        ((100vw - 320px) / (1439 - 320))
+                    )
+                ) / 2
+            )
+            0;
+        }
+
+        @media (max-width: 320px) {
+          width: #{$categoryMinSize}px;
+          height: #{$categoryMinSize}px;
+          top: calc(-#{$categoryMinSize}px / 2);
+          left: calc(50% - #{$categoryMinSize}px / 2);
+          transform-origin: 50% calc((#{$circleMinSize}px + #{$categoryMinSize}px) / 2) 0;
         }
       }
     }

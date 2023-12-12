@@ -30,4 +30,24 @@
       }
     }
   }
+
+  @media (max-width: 1439px) {
+    gap: calc(10px + (20 - 10) * ((100vw - 320px) / (1439 - 320)));
+
+    & .title {
+      height: calc(14px + (18 - 14) * ((100vw - 320px) / (1439 - 320)));
+    }
+
+    & .controls {
+      gap: calc(8px + (20 - 8) * ((100vw - 320px) / (1439 - 320)));
+    }
+  }
+
+  @media (max-width: 320px) {
+    gap: 10px;
+
+    & .controls {
+      gap: 8px;
+    }
+  }
 }
