@@ -1,3 +1,5 @@
+@use '../../sass/lib';
+
 .slider {
   position: relative;
   opacity: 1;
@@ -7,14 +9,6 @@
     top: 50px;
     left: -40px;
     transform: rotate(180deg) translateX(50%);
-
-    @media (max-width: 1439px) {
-      left: calc(-10px + (-40 + 10) * ((100vw - 320px) / (1439 - 320)));
-    }
-  
-    @media (max-width: 320px) {
-      left: -10px;
-    }
 
     &.inactive {
       display: none;
@@ -27,16 +21,28 @@
     right: -40px;
     transform: translateX(50%);
 
-    @media (max-width: 1439px) {
-      right: calc(-10px + (-40 + 10) * ((100vw - 320px) / (1439 - 320)));
-    }
-  
-    @media (max-width: 320px) {
-      right: -10px;
-    }
-
     &.inactive {
       display: none;
+    }
+  }
+
+  @include lib.media('max') {
+    & .prev {
+      left: lib.calcValueBetweenMinMax(-10, -40);
+    }
+
+    & .next {
+      right: lib.calcValueBetweenMinMax(-10, -40);
+    }
+  }
+
+  @include lib.media('min') {
+    & .prev {
+      left: -10px;
+    }
+
+    & .next {
+      right: -10px;
     }
   }
 }

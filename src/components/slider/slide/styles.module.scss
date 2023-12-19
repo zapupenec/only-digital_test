@@ -1,3 +1,5 @@
+@use '../../../sass/lib';
+
 .slide {
   display: flex;
   flex-direction: column;
@@ -20,18 +22,18 @@
     line-height: 150%;
   }
 
-  @media (max-width: 1439px) {
+  @include lib.media('max') {
     & .title {
-      font-size: calc(16px + (25 - 16) * ((100vw - 320px) / (1439 - 320)));
+      font-size: lib.calcValueBetweenMinMax(16, 25);
     }
 
     & .text {
-      font-size: calc(14px + (20 - 14) * ((100vw - 320px) / (1439 - 320)));
+      font-size: lib.calcValueBetweenMinMax(14, 20);
       line-height: 150%;
     }
   }
 
-  @media (max-width: 320px) {
+  @include lib.media('min') {
     & .title {
       font-size: 16px;
     }
@@ -41,10 +43,3 @@
     }
   }
 }
-
-// color: var(--Black-blue, #42567A);
-// font-family: PT Sans;
-// font-size: 14px;
-// font-style: normal;
-// font-weight: 400;
-// line-height: 145%; /* 20.3px */

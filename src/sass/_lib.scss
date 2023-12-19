@@ -1,0 +1,30 @@
+@use 'sass:map';
+
+$breakpoints: (
+  min: 320,
+  medium: 1024,
+  max: 1440,
+);
+
+@mixin media($size: 'small', $max-width: 0) {
+  @if $size == 'custom' {
+    @media (max-width: #{$max-width}px) {
+      @content;
+    }
+  } @else {
+    @media (max-width: #{calc(map.get($breakpoints, $size) - 1)}px) {
+      @content;
+    }
+  }
+}
+
+@function calcValueBetweenMinMax(
+  $minValue,
+  $maxValue,
+  $minSize: map.get($breakpoints, 'min'),
+  $maxSize: map.get($breakpoints, 'max')
+) {
+  @return calc(
+    #{$minValue}px + (($maxValue - $minValue) * (100vw - #{$minSize}px)) / ($maxSize - 1 - $minSize)
+  );
+}

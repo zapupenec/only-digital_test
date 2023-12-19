@@ -11,6 +11,7 @@ import { TEvent } from '../../types';
 import { SliderButton } from './slider-button';
 import { Slide } from './slide';
 import { useResize } from '../../hooks';
+import { getValueByWindowWidth } from '../../lib';
 
 interface ISliderProps extends SwiperProps {
   list: TEvent[];
@@ -86,33 +87,13 @@ export const Slider: FC<ISliderProps> = ({ list, className }) => {
       });
     };
   }, [list]);
-  
-  const getSlidesPerView = () => {
-    if (width > 320 && width < 1400) {
-      return 1.5 + ((3.5 - 1.5) * (width - 320)) / (1439 - 320);
-    }
-    if (width <= 320) {
-      return 1.5;
-    }
-    return 3.5;
-  };
-
-  const getSpaceBetween = () => {
-    if (width > 320 && width < 1400) {
-      return 25 + ((80 - 25) * (width - 320)) / (1439 - 320);
-    }
-    if (width <= 320) {
-      return 25;
-    }
-    return 80;
-  };
 
   return (
     <div ref={sliderRef} className={cn(className, styles.slider)}>
       <Swiper
         modules={[Mousewheel, FreeMode]}
-        spaceBetween={getSpaceBetween()}
-        slidesPerView={getSlidesPerView()}
+        spaceBetween={getValueByWindowWidth(25, 80, width, 320, 1400)}
+        slidesPerView={getValueByWindowWidth(1.5, 3.5, width, 320, 1400)}
         freeMode
         mousewheel
         grabCursor

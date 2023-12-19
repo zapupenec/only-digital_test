@@ -1,3 +1,5 @@
+@use '../../sass/lib';
+
 .container {
   box-sizing: border-box;
   overflow: hidden;
@@ -16,15 +18,15 @@
   background: #f4f5f9;
   position: relative;
 
-  @media (max-width: 1439px) {
-    padding-top: calc(60px + (180 - 60) * ((100vw - 320px) / (1439 - 320)));
-    padding-bottom: calc(15px + (100 - 15) * ((100vw - 320px) / (1439 - 320)));
-    padding-right: calc(20px + (80 - 20) * ((100vw - 320px) / (1439 - 320)));
-    padding-left: calc(20px + (80 - 20) * ((100vw - 320px) / (1439 - 320)));
+  @include lib.media('max') {
+    padding-top: lib.calcValueBetweenMinMax(60, 180);
+    padding-bottom: lib.calcValueBetweenMinMax(15, 100);
+    padding-right: lib.calcValueBetweenMinMax(20, 80);
+    padding-left: lib.calcValueBetweenMinMax(20, 80);
     box-shadow: none;
   }
 
-  @media (max-width: 320px) {
+  @include lib.media('min') {
     padding-top: 60px;
     padding-bottom: 15px;
     padding-right: 20px;

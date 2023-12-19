@@ -1,3 +1,5 @@
+@use '../../sass/lib';
+
 .Pagination {
   display: flex;
   flex-direction: column;
@@ -31,20 +33,25 @@
     }
   }
 
-  @media (max-width: 1439px) {
-    gap: calc(10px + (20 - 10) * ((100vw - 320px) / (1439 - 320)));
+  @include lib.media('max') {
+    gap: lib.calcValueBetweenMinMax(10, 20);
 
     & .title {
-      height: calc(14px + (18 - 14) * ((100vw - 320px) / (1439 - 320)));
+      height: lib.calcValueBetweenMinMax(14, 18);
     }
 
     & .controls {
+      gap: lib.calcValueBetweenMinMax(8, 20);
       gap: calc(8px + (20 - 8) * ((100vw - 320px) / (1439 - 320)));
     }
   }
 
-  @media (max-width: 320px) {
+  @include lib.media('min') {
     gap: 10px;
+
+    & .title {
+      height: 14px;
+    }
 
     & .controls {
       gap: 8px;
